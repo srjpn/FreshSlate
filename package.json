@@ -1,0 +1,23 @@
+{
+    "name": "freshslate",
+    "version": "1.0.0",
+    "description": "A CLI tool for machine setup",
+    "type": "module",
+    "main": "bin/freshslate.js",
+    "bin": {
+        "freshslate": "bin/freshslate.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "cli",
+        "project",
+        "initialization"
+    ],
+    "author": "Sooraj Parameswaran",
+    "license": "MIT",
+    "dependencies": {
+        "commander": "^12.1.0"
+    }
+}
