@@ -20,7 +20,7 @@ program
 
 program
     .command("configure <tool>")
-    .description("Configure a tool")
+    .description("Configure a specific tool")
     .action((tool) => {
         configure(tool);
     });

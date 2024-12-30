@@ -18,6 +18,7 @@
     "author": "Sooraj Parameswaran",
     "license": "MIT",
     "dependencies": {
-        "commander": "^12.1.0"
+        "commander": "^12.1.0",
+        "js-yaml": "^4.1.0"
     }
 }

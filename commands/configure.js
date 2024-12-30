@@ -1,22 +1,31 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import { loadYaml } from "../utils/yamlLoader.js";
+import { exec } from "child_process";
+import { promisify } from "util";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const execAsync = promisify(exec);
 
 export async function configure(tool) {
-    const configuratorsDir = path.join(__dirname, "../configurators");
-
     try {
-        const configuratorPath = path.join(configuratorsDir, `${tool}.js`);
-        if (fs.existsSync(configuratorPath)) {
-            const { configure } = await import(`../configurators/${tool}.js`);
-            configure();
-        } else {
-            console.error(`❌ No configurator found for "${tool}".`);
+        console.log(`Starting configuration for ${tool}...`);
+
+        const steps = await loadYaml(`./commands/tools/${tool}.yaml`);
+        if (!steps.configure) {
+            console.log(`No configuration steps defined for ${tool}.`);
+            return;
         }
+
+        for (const step of steps.configure) {
+            if (step.command) {
+                console.log(`➡️  ${step.description}`);
+                await execAsync(step.command, { shell: true });
+            } else if (step.script) {
+                console.log(`➡️  ${step.description}`);
+                await execAsync(step.script, { shell: true });
+            }
+        }
+
+        console.log(`✅ Configuration of ${tool} completed.`);
     } catch (error) {
-        console.error(`❌ Failed to run configurator for "${tool}": ${error.message}`);
+        console.error(`❌ Failed to configure ${tool}:`, error.message);
     }
 }
