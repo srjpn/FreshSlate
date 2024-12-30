@@ -1,0 +1,32 @@
+install:
+- description: "Install NVM (Node Version Manager)"
+  script: |
+    # Check if NVM is already installed
+    if ! command -v nvm &> /dev/null; then
+      echo "NVM not found, installing..."
+      # Install NVM
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+      
+      # Add NVM to the shell profile
+      if [ -n "$ZSH_VERSION" ]; then
+        # For Zsh users
+        echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+        echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.zshrc
+        source ~/.zshrc
+      else
+        # For Bash users (default case)
+        echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bash_profile
+        echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bash_profile
+        source ~/.bash_profile
+      fi
+    else
+      echo "NVM is already installed"
+    fi
+
+- description: "Verify NVM installation"
+  script: |
+    if command -v nvm &> /dev/null; then
+      echo "NVM installed successfully"
+    else
+      echo "Failed to install NVM"
+    fi

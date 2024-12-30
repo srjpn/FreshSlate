@@ -1,5 +1,6 @@
 {
   "zsh": true,
   "git": true,
-  "ssh_configured": true
+  "ssh_configured": true,
+  "nvm": true
 }

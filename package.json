@@ -8,7 +8,7 @@
         "freshslate": "bin/freshslate.js"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node bin/freshslate.js"
     },
     "keywords": [
         "cli",

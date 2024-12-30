@@ -1,7 +1,8 @@
 import { loadYaml } from "../utils/yamlLoader.js";
 import { readTracker, updateTracker } from "../utils/tracker.js";
 import { execAsync } from "../utils/exec.js";
-
+import path from "path";
+import fs from "fs/promises";
 
 export async function install(tool, options = {}) {
     try {
