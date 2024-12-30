@@ -1,0 +1,16 @@
+install:
+
+- description: Install Visual Studio Code
+  command: brew install --cask visual-studio-code
+
+- description: Install VS Code extensions
+  script: |
+    echo "Installing VS Code extensions"
+    while IFS= read -r extension; do
+      if [ ! -z "$extension" ]; then
+        code --install-extension "$extension"
+      fi
+    done < ./configs/vscode-extensions.txt
+
+- description: Verify VS Code installation
+  command: code --version

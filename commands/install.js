@@ -1,11 +1,9 @@
 import { loadYaml } from "../utils/yamlLoader.js";
 import { readTracker, updateTracker } from "../utils/tracker.js";
-import { exec } from "child_process";
-import { promisify } from "util";
+import { execAsync } from "../utils/exec.js";
 
-const execAsync = promisify(exec);
 
-export async function install(tool) {
+export async function install(tool, options = {}) {
     try {
         console.log(`Starting installation for ${tool}...`);
 
@@ -31,7 +29,7 @@ export async function install(tool) {
                 // Handle script
                 const tempScript = path.join("/tmp", `${tool}-install.sh`);
                 await fs.writeFile(tempScript, step.script, { mode: 0o755 });
-                await execAsync(`bash ${tempScript}`, { shell: true });
+                await execAsync(`bash ${tempScript}`, { shell: true, verbose: options.verbose });
                 await fs.unlink(tempScript); // Clean up temporary file
             } else {
                 console.error(

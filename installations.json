@@ -1,4 +1,5 @@
 {
-    "zsh": true,
-    "git": true
+  "zsh": true,
+  "git": true,
+  "ssh_configured": true
 }

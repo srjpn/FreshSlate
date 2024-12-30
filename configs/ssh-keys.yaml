@@ -1,0 +1,14 @@
+keys:
+- name: personal
+  path: ~/.ssh/id_rsa_personal
+  email: srjpn123@gmail.com
+  comment: "Personal Git SSH Key"
+  usage:
+  - host: github.com
+    user: git
+
+- name: default
+  path: ~/.ssh/id_rsa
+  email: srjpn123@gmail.com
+  comment: "Default SSH Key"
+  usage: []

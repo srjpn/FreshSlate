@@ -1,0 +1,43 @@
+configure:
+- description: Generate SSH keys if they do not exist
+  script: |
+    if ! command -v yq >/dev/null 2>&1; then
+      echo "yq is not installed. Installing yq..."
+      brew install yq || (echo "Failed to install yq. Please install it manually." && exit 1)
+    fi
+
+    mkdir -p ~/.ssh
+    ssh_keys=$(yq e '.keys[]' ./configs/ssh-keys.yaml)
+
+    for key in $(yq e '.keys[].path' ./configs/ssh-keys.yaml); do
+      if [ ! -f "$key" ]; then
+        key_name=$(yq e ".keys[] | select(.path == \"$key\").name" ./configs/ssh-keys.yaml)
+        key_email=$(yq e ".keys[] | select(.path == \"$key\").email" ./configs/ssh-keys.yaml)
+        key_comment=$(yq e ".keys[] | select(.path == \"$key\").comment" ./configs/ssh-keys.yaml)
+
+        ssh-keygen -t ed25519 -f "$key" -q -N "" -C "$key_email ($key_comment)"
+        echo "Generated SSH key: $key"
+      else
+        echo "SSH key already exists: $key"
+      fi
+    done
+
+- description: Add SSH config for each key's usage
+  script: |
+    for key in $(yq e '.keys[].path' ./configs/ssh-keys.yaml); do
+      usage=$(yq e ".keys[] | select(.path == \"$key\").usage" ./configs/ssh-keys.yaml)
+      if [ "$usage" != "[]" ]; then
+        # Process each entry in the usage array
+        echo "$usage" | jq -c '.[]' | while read entry; do
+          host=$(echo "$entry" | jq -r '.host')
+          user=$(echo "$entry" | jq -r '.user')
+          echo "Host $host
+                HostName $host
+                User $user
+                IdentityFile $key
+              " >> ~/.ssh/config
+        done
+      fi
+    done
+    chmod 600 ~/.ssh/config
+    echo "SSH config updated."
