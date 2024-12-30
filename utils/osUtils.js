@@ -1,19 +1,7 @@
-import { platform } from 'os';
+const os = require("os");
 
-/**
- * Detects the current operating system
- * @returns {string} The detected operating system ('windows', 'macos', or 'linux')
- */
-export function detectOS() {
-    const os = platform().toLowerCase();
-    
-    if (os.includes('win')) {
-        return 'windows';
-    } else if (os.includes('darwin')) {
-        return 'macos';
-    } else if (os.includes('linux')) {
-        return 'linux';
-    } else {
-        throw new Error('Unsupported operating system');
-    }
+function detectOS() {
+  return os.platform(); // macOS will return 'darwin'
 }
+
+module.exports = { detectOS };

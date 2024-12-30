@@ -1,21 +1,22 @@
-import { platform } from 'os';
-import { detectOS } from '../utils/osUtils.js';
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-export async function install(options) {
-    const [templateName] = options;
-    
-    if (!templateName) {
-        throw new Error('Template name is required');
-    }
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-    // Detect OS for platform-specific operations
-    const os = detectOS();
-    console.log(`Installing template '${templateName}' on ${os} platform...`);
+export async function install(tool) {
+    const installersDir = path.join(__dirname, "../installers");
 
     try {
-        // TODO: Implement template installation logic
-        console.log('Template installation successful!');
+        const installerPath = path.join(installersDir, `${tool}.js`);
+        if (fs.existsSync(installerPath)) {
+            const { install } = await import(`../installers/${tool}.js`);
+            install();
+        } else {
+            console.error(`❌ No installer found for "${tool}".`);
+        }
     } catch (error) {
-        throw new Error(`Failed to install template: ${error.message}`);
+        console.error(`❌ Failed to run installer for "${tool}": ${error.message}`);
     }
 }
