@@ -23,7 +23,22 @@ export async function install(tool) {
 
         for (const step of steps.install) {
             console.log(`➡️  ${step.description}`);
-            await execAsync(step.command, { shell: true });
+
+            if (step.command) {
+                // Handle command
+                await execAsync(step.command, { shell: true });
+            } else if (step.script) {
+                // Handle script
+                const tempScript = path.join("/tmp", `${tool}-install.sh`);
+                await fs.writeFile(tempScript, step.script, { mode: 0o755 });
+                await execAsync(`bash ${tempScript}`, { shell: true });
+                await fs.unlink(tempScript); // Clean up temporary file
+            } else {
+                console.error(
+                    `❌ Invalid step: Each step must have either a 'command' or a 'script'.`
+                );
+                process.exit(1);
+            }
         }
 
         updateTracker(tool, true);

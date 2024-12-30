@@ -1,0 +1,25 @@
+install:
+- description: Install Git using Homebrew
+  command: brew install git
+- description: Verify Git installation
+  command: git --version
+
+configure:
+- description: Copy sample .gitconfig to the root directory
+  script: |
+    echo "Copying sample .gitconfig file to the home directory"
+    cp ./configs/gitconfig ~/.gitconfig
+
+- description: Set global Git user name
+  command: git config --global user.name "Sooraj Parameswaran"
+
+- description: Set global Git user email
+  command: git config --global user.email "srjpn123@gmail.com"
+
+# - description: Add conditional configuration for Agoda projects
+#   script: |
+#     echo "Adding conditional include for Agoda projects"
+#     echo '[includeIf "gitdir:/Users/sparameswara/workspace/agoda/"]\n    path = ~/.gitconfig-agoda' >> ~/.gitconfig
+
+- description: Validate Git configuration
+  command: git config --list

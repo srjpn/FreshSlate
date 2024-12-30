@@ -1,0 +1,6 @@
+[user]
+    name = Sooraj Parameswaran
+    email = srjpn123@gmail.com
+
+[includeIf "gitdir:~/workspace/agoda/"]
+    path = ~/.gitconfig-agoda
