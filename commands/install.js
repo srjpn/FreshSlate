@@ -1,4 +1,4 @@
-import { loadYaml } from "../utils/yamlLoader.js";
+import { getToolConfig } from "../utils/toolConfigs.js";
 import { readTracker, updateTracker } from "../utils/tracker.js";
 import { execAsync } from "../utils/exec.js";
 import path from "path";
@@ -14,13 +14,13 @@ export async function install(tool, options = {}) {
             return;
         }
 
-        const steps = await loadYaml(`./commands/tools/${tool}.yaml`);
-        if (!steps.install) {
+        const config = getToolConfig(tool);
+        if (!config.install) {
             console.log(`No installation steps defined for ${tool}.`);
             return;
         }
 
-        for (const step of steps.install) {
+        for (const step of config.install) {
             console.log(`➡️  ${step.description}`);
 
             if (step.command) {

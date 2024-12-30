@@ -3,12 +3,14 @@
     "version": "1.0.0",
     "description": "A CLI tool for machine setup",
     "type": "module",
-    "main": "bin/freshslate.js",
+    "main": "dist/freshslate.bundle.js",
     "bin": {
-        "freshslate": "bin/freshslate.js"
+        "freshslate": "dist/freshslate.bundle.js"
     },
     "scripts": {
-        "start": "node bin/freshslate.js"
+        "clean": "rm -rf dist",
+        "build": "npm run clean && rollup -c",
+        "start": "node dist/freshslate.bundle.js"
     },
     "keywords": [
         "cli",
@@ -20,5 +22,26 @@
     "dependencies": {
         "commander": "^12.1.0",
         "js-yaml": "^4.1.0"
+    },
+    "pkg": {
+        "scripts": "dist/**/*.js",
+        "assets": [
+            "commands/**/*",
+            "configs/**/*",
+            "utils/**/*"
+        ],
+        "targets": [
+            "node16-macos-x64"
+        ]
+    },
+    "devDependencies": {
+        "@babel/core": "^7.26.0",
+        "@babel/preset-env": "^7.26.0",
+        "@rollup/plugin-babel": "^6.0.4",
+        "@rollup/plugin-commonjs": "^25.0.7",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-yaml": "^4.1.2",
+        "pkg": "^5.8.1",
+        "rollup": "^4.29.1"
     }
 }

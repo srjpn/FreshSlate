@@ -1,11 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const trackerFilePath = path.join(__dirname, "../installations.json");
+const trackerFilePath = path.join(process.cwd(), "installations.json");
 
 function readTracker() {
     if (!fs.existsSync(trackerFilePath)) {
