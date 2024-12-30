@@ -26,4 +26,16 @@ function isToolInstalled(tool) {
     return tracker[tool] === true;
 }
 
-export { readTracker, updateTracker, isToolInstalled };
+function isToolConfigured(tool) {
+    const tracker = readTracker();
+    return tracker[`${tool}_configured`] === true;
+}
+
+function updateConfigurationStatus(tool, status) {
+    const tracker = readTracker();
+    tracker[`${tool}_configured`] = status;
+    fs.writeFileSync(trackerFilePath, JSON.stringify(tracker, null, 2));
+}
+
+
+export { readTracker, updateTracker, isToolInstalled, isToolConfigured, updateConfigurationStatus };

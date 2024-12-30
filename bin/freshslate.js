@@ -2,6 +2,7 @@
 
 import { Command } from "commander";
 import { install } from "../commands/install.js";
+import { configure } from "../commands/configure.js";
 
 const program = new Command();
 
@@ -15,6 +16,13 @@ program
     .description("Install a tool or configuration")
     .action((tool) => {
         install(tool);
+    });
+
+program
+    .command("configure <tool>")
+    .description("Configure a tool")
+    .action((tool) => {
+        configure(tool);
     });
 
 program.parse(process.argv);
