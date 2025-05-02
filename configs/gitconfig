@@ -2,5 +2,20 @@
     name = Sooraj Parameswaran
     email = srjpn123@gmail.com
 
+[includeIf "gitdir:~/workspace/thoughtworks/"]
+    path = ~/.gitconfig-thoughtworks
+
+[includeIf "gitdir:~/workspace/deserve/"]
+    path = ~/.gitconfig-deserve
+
 [includeIf "gitdir:~/workspace/agoda/"]
     path = ~/.gitconfig-agoda
+
+[includeIf "gitdir:~/workspace/mastermine/"]
+    path = ~/.gitconfig-mastermine
+
+[includeIf "gitdir:~/workspace/picktrail/"]
+    path = ~/.gitconfig-picktrail
+
+[includeIf "gitdir:~/workspace/coco-experiments/"]
+    path = ~/.gitconfig-cocoexperiments
