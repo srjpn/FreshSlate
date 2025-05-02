@@ -19,3 +19,6 @@
 
 [includeIf "gitdir:~/workspace/coco-experiments/"]
     path = ~/.gitconfig-cocoexperiments
+
+[includeIf "gitdir:~/workspace/deel/"]
+    path = ~/.gitconfig-deel
