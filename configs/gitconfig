@@ -22,3 +22,6 @@
 
 [includeIf "gitdir:~/workspace/deel/"]
     path = ~/.gitconfig-deel
+
+[includeIf "gitdir:~/workspace/bigday/"]
+    path = ~/.gitconfig-axilume
